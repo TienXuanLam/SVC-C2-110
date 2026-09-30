@@ -1,0 +1,9 @@
+# Runtime configuration (AgentBaseGraph config.yaml keys).
+# Distinct from config/agent.yaml (static manifest / AgentRegistry entry).
+# No HITL — see docs/01_proposal.md "HITL Gate" and docs/02_design.md
+# Design Decision Record: human warranty review is external to this agent's
+# execution, not an in-graph interrupt/resume checkpoint.
+
+max_retry: 3
+memory_enabled: false
+timeout_s: 30

@@ -1,0 +1,48 @@
+[project]
+name = "svc-c2-110"
+version = "0.1.0"
+description = "Field-Service Warranty Claim Evidence Validator — AgentCore Template"
+requires-python = ">=3.11"
+# The framework (agenticstar-agentcore) is NOT a public-PyPI dependency; it is
+# provided by CI per repo arm — a local stub package on PYTHONPATH for
+# stub-era repos, or installed from the package registry for wheel-era repos
+# (see the dual-mode run-tests job in the CI pipeline definition). Pinning it
+# here would make `pip install -e .` fail because it is not resolvable from
+# the default index.
+dependencies = [
+    "agenticstar-agentcore[marketplace,openai]==1.0.3",]
+
+[project.optional-dependencies]
+dev = [
+    "pytest==9.0.3",
+    "pytest-cov==5.0.0",
+    "pytest-asyncio==1.4.0",
+    "ruff==0.4.4",
+    "mypy==1.10.0",
+    # PB-5 runtime checkpoint-serialization assertion (test_state_safety.py)
+    # packs a real post-invoke state with the same msgpack implementation
+    # LangGraph checkpointing uses.
+    "ormsgpack==1.12.2",
+]
+
+[build-system]
+requires = ["setuptools==68.2.2"]
+build-backend = "setuptools.build_meta"
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+# Every node/graph class subclasses a framework base (FunctionNode, AgentBaseGraph)
+# whose exact generic parameters are not visible to mypy without the wheel installed
+# in every dev environment; disallow_subclassing_any=true (mypy --strict default)
+# would fail every node/graph class definition purely on that basis. Confirmed
+# pattern from prior template remediations.
+disallow_subclassing_any = false
+
+[[tool.mypy.overrides]]
+module = ["framework.*", "shared.*", "yaml.*"]
+ignore_missing_imports = true

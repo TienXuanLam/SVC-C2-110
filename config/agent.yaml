@@ -1,0 +1,20 @@
+# Agent Manifest — AgentRegistry entry point
+# This file is required for AgentRegistry auto-discovery (lazy-load architecture)
+
+id: "SVC-C2-110"
+name: "Field-Service Warranty Claim Evidence Validator"
+namespace: "svc"
+version: "0.1.0"
+description: "Field-Service Warranty Claim Evidence Validator"
+enabled: true
+category: "Cat 2"
+industry: "SVC"
+# Level 2 base agent type — informational label only; mechanism is always
+# L1-direct AgentBaseGraph. "Other" per proposal §1 Category/Base:
+# "Cat 2 / Other (WarrantyClaimEvidenceValidatorAgent)".
+base_type: "Other"
+class: "src.graph.graph.WarrantyClaimEvidenceValidatorAgent"
+required_trust_level: "VERIFIED_EXTERNAL"
+requires:
+  secrets: []
+  extras: []
